@@ -24,3 +24,5 @@ keymap.set('n', '<C-w><down>', '<C-w>-')
 -- esc options
 keymap.set('i', 'jk', '<esc>')
 keymap.set('i', 'kj', '<esc>')
+
+keymap.set('', '<C-n>', ':noh<CR>')

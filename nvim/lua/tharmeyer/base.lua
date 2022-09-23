@@ -23,4 +23,7 @@ vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
 
 vim.opt.wildignore:append { '*/node_modules/*' }
 
+vim.diagnostic.config({ virtual_lines = false })
+
 vim.cmd[[colorscheme tokyonight]]
+
