@@ -5,7 +5,7 @@ return {
       local nls = require("null-ls")
       return {
         sources = {
-          nls.builtins.formatting.prettierd,
+          nls.builtins.formatting.prettier,
           nls.builtins.formatting.eslint_d,
           nls.builtins.code_actions.eslint_d,
           nls.builtins.diagnostics.eslint_d,
