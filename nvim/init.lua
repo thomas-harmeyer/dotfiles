@@ -159,7 +159,15 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 
 -- [[ Basic Keymaps ]]
+-- move across panes
+vim.keymap.set('n', '<C-l>', '<C-w>l', { silent = true })
+vim.keymap.set('n', '<C-h>', '<C-w>h', { silent = true })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { silent = true })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { silent = true })
 
+-- switch between buffers
+vim.keymap.set('n', 'H', '<cmd>bp<CR>', { silent = true })
+vim.keymap.set('n', 'L', '<cmd>bn<CR>', { silent = true })
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
