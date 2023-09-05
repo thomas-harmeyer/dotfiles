@@ -32,20 +32,19 @@ require('lazy').setup({
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
       -- Useful status updates for LSP
-      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
   },
 
-  { 'folke/which-key.nvim',  opts = {} },
+  { 'folke/which-key.nvim', opts = {} },
   {
     'lewis6991/gitsigns.nvim',
     opts = {
       -- See `:help gitsigns.txt`
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
-          { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
+        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
         vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
         vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
       end,
@@ -97,6 +96,7 @@ require('lazy').setup({
     },
     build = ':TSUpdate',
   },
+  { 'ellisonleao/glow.nvim', config = true },
 
   require 'kickstart.plugins.autoformat',
   require 'kickstart.plugins.debug',
@@ -109,7 +109,7 @@ require('lazy').setup({
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   -- { import = 'custom.plugins' },
 
-  { 'ms-jpq/coq_nvim',                dependencies = { 'ms-jpq/coq.artifacts' } },
+  { 'ms-jpq/coq_nvim', dependencies = { 'ms-jpq/coq.artifacts' } },
   { 'ms-jpq/coq.thirdparty' },
   { 'jose-elias-alvarez/null-ls.nvim' },
   {
@@ -391,8 +391,8 @@ mason_lspconfig.setup_handlers {
 
 require 'coq_3p' {
   { src = 'nvimlua', short_name = 'nLUA', conf_only = false },
-  { src = 'bc',      short_name = 'MATH', precision = 6 },
-  { src = 'copilot', short_name = 'COP',  accept_key = '<c-f>' },
+  { src = 'bc', short_name = 'MATH', precision = 6 },
+  { src = 'copilot', short_name = 'COP', accept_key = '<c-f>' },
 }
 
 -- formatting lsp server
@@ -404,5 +404,9 @@ null_ls.setup {
   },
 }
 
+local jira = require 'jira'
+vim.keymap.set('n', '<leader>sj', function()
+  jira.tickets()
+end)
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
