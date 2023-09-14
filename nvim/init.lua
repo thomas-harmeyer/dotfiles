@@ -32,19 +32,20 @@ require('lazy').setup({
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
       -- Useful status updates for LSP
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
   },
 
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',  opts = {} },
   {
     'lewis6991/gitsigns.nvim',
     opts = {
       -- See `:help gitsigns.txt`
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
+        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
+          { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
         vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
         vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
       end,
@@ -96,7 +97,7 @@ require('lazy').setup({
     },
     build = ':TSUpdate',
   },
-  { 'ellisonleao/glow.nvim', config = true },
+  { 'ellisonleao/glow.nvim',          config = true },
 
   require 'kickstart.plugins.autoformat',
   require 'kickstart.plugins.debug',
@@ -109,13 +110,14 @@ require('lazy').setup({
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   -- { import = 'custom.plugins' },
 
-  { 'ms-jpq/coq_nvim', dependencies = { 'ms-jpq/coq.artifacts' } },
+  { 'ms-jpq/coq_nvim',                dependencies = { 'ms-jpq/coq.artifacts' } },
   { 'ms-jpq/coq.thirdparty' },
   { 'jose-elias-alvarez/null-ls.nvim' },
   {
     'nvim-telescope/telescope-file-browser.nvim',
     dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
   },
+  { 'ThePrimeagen/harpoon' },
 }, {})
 
 -- [[ Setting options ]]
@@ -162,7 +164,7 @@ vim.o.termguicolors = true
 -- move across panes
 vim.keymap.set('n', '<C-l>', '<C-w>l', { silent = true })
 vim.keymap.set('n', '<C-h>', '<C-w>h', { silent = true })
-vim.keymap.set('n', '<C-k>', '<C-w>k', { silent = true })
+-- vim.keymap.set('n', '<C-k>', '<C-w>k', { silent = true })
 vim.keymap.set('n', '<C-j>', '<C-w>j', { silent = true })
 
 -- switch between buffers
@@ -190,14 +192,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
-  defaults = {
-    mappings = {
-      i = {
-        ['<C-u>'] = false,
-        ['<C-d>'] = false,
-      },
-    },
-  },
   extensions = {
     file_browser = {
       theme = 'ivy',
@@ -330,7 +324,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  -- nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -391,8 +385,8 @@ mason_lspconfig.setup_handlers {
 
 require 'coq_3p' {
   { src = 'nvimlua', short_name = 'nLUA', conf_only = false },
-  { src = 'bc', short_name = 'MATH', precision = 6 },
-  { src = 'copilot', short_name = 'COP', accept_key = '<c-f>' },
+  { src = 'bc',      short_name = 'MATH', precision = 6 },
+  -- { src = 'copilot', short_name = 'COP',  accept_key = '<c-f>' },
 }
 
 -- formatting lsp server
@@ -404,9 +398,40 @@ null_ls.setup {
   },
 }
 
+-- JIRA
 local jira = require 'jira'
 vim.keymap.set('n', '<leader>sj', function()
   jira.tickets()
-end)
+end, { desc = '[S]earch [J]ira' })
+
+-- SQL
+local sql = require 'sql'
+vim.keymap.set('n', '<leader>Ss', function()
+  sql.set_server()
+end, { desc = '[S]ql set [S]erver' })
+
+vim.keymap.set('n', '<leader>Sd', function()
+  sql.set_database()
+end, { desc = '[S]ql set [D]atabase' })
+
+vim.keymap.set('n', '<leader>St', function()
+  sql.set_table()
+end, { desc = '[S]ql set [T]able' })
+
+vim.keymap.set('n', '<leader>Sn', function()
+  sql.do_next()
+end, { desc = '[S]ql set [N]ext' })
+
+vim.keymap.set('n', '<leader>Sr', function()
+  sql.reset_all()
+end, { desc = '[S]ql [R]eset' })
+
+vim.keymap.set('n', '<leader>Sc', function()
+  sql.write_columns()
+end, { desc = '[S]ql write [C]olumns' })
+
+vim.keymap.set('n', '<leader>Sp', function()
+  sql.write_rows()
+end, { desc = '[S]ql [P]rint Rows' })
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

@@ -41,38 +41,40 @@ M.tickets = function(opts)
   local ticket_previewer = previewer.new_buffer_previewer {
     define_preview = function(self, entry, status)
       local ticket_description = get_jira_ticket_description(entry.value)
+      print(vim.inspect(self.state))
       vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, ticket_description)
+      vim.api.nvim_win_set_option(self.state.winid, 'wrap', true)
     end,
     keep_last_buf = true,
   }
   pickers
-      .new(opts, {
-        prompt_title = 'jira tickets',
-        finder = finders.new_table {
-          results = jira_tickets,
-          entry_maker = function(entry)
-            return {
-              value = entry,
-              display = get_jira_ticket_title(entry),
-              ordinal = get_jira_ticket_title(entry),
-            }
-          end,
-        },
-        sorter = conf.generic_sorter(opts),
-        previewer = ticket_previewer,
-        attach_mappings = function(prompt_bufnr, map)
-          actions.select_default:replace(function()
-            actions.close(prompt_bufnr)
-            local last_bufnr = require('telescope.state').get_global_key 'last_preview_bufnr'
-            vim.api.nvim_buf_set_option(last_bufnr, 'filetype', 'markdown')
-            vim.api.nvim_set_current_buf(last_bufnr)
-            vim.api.nvim_buf_set_option(last_bufnr, 'bufhidden', 'wipe')
-            vim.cmd 'Glow'
-          end)
-          return true
+    .new(opts, {
+      prompt_title = 'jira tickets',
+      finder = finders.new_table {
+        results = jira_tickets,
+        entry_maker = function(entry)
+          return {
+            value = entry,
+            display = get_jira_ticket_title(entry),
+            ordinal = get_jira_ticket_title(entry),
+          }
         end,
-      })
-      :find()
+      },
+      sorter = conf.generic_sorter(opts),
+      previewer = ticket_previewer,
+      attach_mappings = function(prompt_bufnr, map)
+        actions.select_default:replace(function()
+          actions.close(prompt_bufnr)
+          local last_bufnr = require('telescope.state').get_global_key 'last_preview_bufnr'
+          vim.api.nvim_buf_set_option(last_bufnr, 'filetype', 'markdown')
+          vim.api.nvim_set_current_buf(last_bufnr)
+          vim.api.nvim_buf_set_option(last_bufnr, 'bufhidden', 'wipe')
+          vim.cmd 'Glow'
+        end)
+        return true
+      end,
+    })
+    :find()
 end
 
 return M
