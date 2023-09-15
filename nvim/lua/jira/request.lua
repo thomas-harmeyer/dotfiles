@@ -7,6 +7,7 @@ local dkjson = require 'dkjson'
 -- Set the URL and headers
 local url = 'https://jira/rest/api/2/search'
 local headers = {
+  ['Authorization'] = 'Bearer NzI2NzM2OTkyNDE3Osasp3m2xErsB1v79mk8RzgQyLrS',
   ['Content-Type'] = 'application/json',
 }
 

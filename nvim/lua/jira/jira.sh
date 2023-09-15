@@ -1,1 +1,0 @@
-lua ./jira.lua | less
